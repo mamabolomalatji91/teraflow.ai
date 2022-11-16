@@ -63,24 +63,7 @@
 	  }
 	
 
-	#######
-	#Data Source:
-	//resource "aws_rds_cluster" "postgresql" {
-	//  cluster_identifier      = "mycluster.cluster"
-	//  engine                  = "aurora-postgresql"
-	//  availability_zones      = ["us-west-2a", "us-west-2b", "us-west-2c"]
-	//  database_name           = "mydb"
-	//  master_username         = "postgres"
-	//  master_password         = "5Y67bg#r#"
-	//  backup_retention_period = 5
-	//  preferred_backup_window = "07:00-09:00"
-	//}
-	
 
-	###########
-	#Load script
-	######################
-	
 
 	 variable "file-name" {
 	   default = "etl.py"
@@ -113,7 +96,7 @@
 	  ##################
 	  resource "aws_glue_crawler" "example" {
 	    database_name = aws_glue_catalog_database.example.name
-	    name          = "terraflow-crawler"
+	    name          = "teraflow-crawler"
 	    role          = "${var.arn-var}"
 	
 
@@ -137,21 +120,4 @@
 	    }
 	  }
 	  EOF
-	  }
-	
-
-	  ##################
-	  # Glue Job       #
-	  ##################
-	  resource "aws_glue_job" "example" {
-	    name     = "python-job"
-	    description = "ETL to s3 from client aurora cluster"
-	    role_arn = "${var.arn-var}"
-	
-
-	    command {
-	      script_location = "s3:  ${var.bucket-name}/Script/Glue/${var.file-name}"
-	      python_version = "3"
-	    }
-	  }
 
